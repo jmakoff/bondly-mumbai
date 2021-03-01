@@ -31,6 +31,14 @@ import {
     transactions,
 } from '@amxx/graphprotocol-utils'
 
+function replaceAll(input: string, search: string[], replace: string): string {
+    let result = '';
+    for (let i = 0; i < input.length; i++) {
+        result += search.includes(input.charAt(i)) ? replace : input.charAt(i);
+    }
+    return result
+}
+
 function fetchToken(registry: TokenRegistry, id: BigInt): Token {
     let tokenid = registry.id.concat('-').concat(id.toHex())
     let token = Token.load(tokenid)
@@ -93,7 +101,7 @@ function registerTransfer(
         ev.toBalance = balance.id
     }
 
-    if (!token.URI) {
+    if (!token.URI || replaceAll(token.URI, ['&', '"', '\''], "").length === 0) {
         let contract = IERC1155MetadataURI.bind(event.address);
         let callResult = contract.try_uri(id);
 
