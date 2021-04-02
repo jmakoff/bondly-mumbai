@@ -1,7 +1,11 @@
 import {
     ethereum,
     Address,
-    BigInt
+    BigInt,
+    ipfs,
+    json,
+    log,
+    Bytes
 } from '@graphprotocol/graph-ts'
 
 import {
@@ -106,6 +110,22 @@ function registerTransfer(
         let callResult = contract.try_uri(id);
 
         if (!callResult.reverted) {
+            let ipfsLink = callResult.value;
+            if (ipfsLink.includes('ipfs://')) {
+                let data = ipfs.cat(ipfsLink)
+                if (data) {
+                    let parsedData = json.fromBytes(data as Bytes)
+                    log.debug('got ipfs data {}', [data.toString()])
+                    if (!parsedData.isNull()){
+                        let objData = parsedData.toObject()
+                        let name = objData.get('name').toString()
+                        let image = objData.get('image').toString()
+                        log.debug('got name: {}, image: {} ', [name, image])
+                        token.name = name
+                        token.image = image
+                    }
+                }
+            }
             token.URI = callResult.value;
         }
     }
@@ -113,6 +133,7 @@ function registerTransfer(
     token.save()
     ev.save()
 }
+
 
 export function handleTransferSingle(event: TransferSingleEvent): void {
     let registry = new TokenRegistry(event.address.toHex())
