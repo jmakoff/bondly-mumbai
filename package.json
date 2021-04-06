@@ -17,7 +17,7 @@
     "build:codegen": "graph codegen subgraph.yaml",
     "build:compile": "graph build subgraph.yaml",
     "build:*": "yarn build:schema && yarn build:codegen && yarn build:compile",
-    "deploy": "graph deploy --debug --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ jmakoff/bondly-matic --access-token 44bbf7981df84e36947b117211fb67fb"
+    "deploy": "graph deploy --debug --node https://api.thegraph.com/deploy/ --ipfs https://api.thegraph.com/ipfs/ jmakoff/bondly-mumbai --access-token 44bbf7981df84e36947b117211fb67fb"
   },
   "dependencies": {
     "@openzeppelin/contracts": "^3.3.0",
