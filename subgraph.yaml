@@ -9,8 +9,8 @@ dataSources:
     network: mumbai
     source:
       abi: IERC1155
-      address: "0xCB334a89e79499b16fAe21f40cD1561fB092245f"
-      startBlock: 4572450
+      address: "0x6f00f022def7a837a5257fc6b1a56851eb6905e8"
+      startBlock: 4567700
     mapping:
       kind: ethereum/events
       apiVersion: 0.0.4
